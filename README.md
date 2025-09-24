@@ -19,16 +19,9 @@ MCU: STM32F411RE, Nucleo-64
 **Table of contents**
 
 - GPIO Digital In/out
-  - Header files
-  - GPIO_init()
-  - GPIO_mode()
-  - GPIO_write()
-  - GPIO_read()
-  - GPIO_ospeed()
-  - GPIO_otype()
-  - GPIO_pupdr()
-
-### GPIO Digital InOut
+  - ecGPIO2.h
+  - ecPinNames.h
+  - ecRCC2.h
 
 #### `#include "ecGPIO2.h"`
 
@@ -108,6 +101,8 @@ void GPIO_mode(PA_4, OUTPUT);
 
 
 
+
+
 #### GPIO_mode()
 
 Configures GPIO pin modes: In/Out/AF/Analog
@@ -126,6 +121,8 @@ void GPIO_init(PinName_t pinName, int mode);
 ```c
 void GPIO_mode(PA_4, OUTPUT);
 ```
+
+
 
 
 
@@ -150,6 +147,8 @@ void GPIO_mode(PA_4, 1);// 1: High
 
 
 
+
+
 #### GPIO_read()
 
 Read the data from GPIO pin
@@ -167,6 +166,8 @@ int GPIO_read(PinName_t pinName);
 ```c
 GPIO_read(GPIOC, 13);
 ```
+
+
 
 
 
@@ -191,6 +192,8 @@ GPIO_ospeed(PA_5, 2);  // 2: FAST_SPEED
 
 
 
+
+
 #### GPIO_otype()
 
 Configures output type of GPIO pin: Push-Pull / Open-Drain
@@ -212,6 +215,8 @@ GPIO_otype(PA_5, 0);  //// 0: Push-Pull
 
 
 
+
+
 #### GPIO_pupdr()
 
 Configures Pull-up/Pull-down mode of GPIO pin: No Pull-up, Pull-down/ Pull-up/ Pull-down/ Reserved
@@ -230,6 +235,8 @@ void GPIO_pupdr(PinName_t pinName, int type);
 ```c
 GPIO_pupdr(PA_5, 0);// 0: No Pull-up, Pull-down
 ```
+
+
 
 
 
@@ -449,6 +456,8 @@ RCC_HSI_init();
 
 
 
+
+
 #### RCC_PLL_init()
 
 configures and enables the PLL using HSI to set the STM32F4 system clock to 84 MHz, with proper FLASH latency and bus prescalers.
@@ -462,6 +471,8 @@ void RCC_PLL_init()
 ```
 RCC_PLL_init();
 ```
+
+
 
 
 
