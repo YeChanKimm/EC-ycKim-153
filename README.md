@@ -31,7 +31,8 @@ It combines the port name and pin number into a single variable and maps it to t
 /*----------------------------------------------------------------\
 @ Embedded Controller by Yechan Kim - Handong Global University
 Author           : Yechan Kim
-Created          : 09-24-2025
+Created          : 09-17-2025
+Modified		 : 09-24-2025
 Language/ver     : C in Keil uVision
 
 Description      : Distributed to Students for LAB_GPIO
@@ -55,7 +56,16 @@ Description      : Distributed to Students for LAB_GPIO
 #define HIGH 1
 #define LOW  0
 
-
+//Parameter numbers
+#define PULL_DOWN 1
+#define PULL_UP 2
+#define NO_PUPD 0
+#define PUSH_PULL 0
+#define OPEN_DRAIN 1
+#define LOW_SPEED 0
+#define MEDIUM_SPEED 1
+#define FAST_SPEED 2
+#define HIGH_SPEED 3
 
 #ifdef __cplusplus
  extern "C" {
@@ -69,8 +79,12 @@ void GPIO_mode(PinName_t pinName, uint32_t mode);//
 void GPIO_ospeed(PinName_t pinName, int speed);//
 void GPIO_otype(PinName_t pinName, int type);//
 void GPIO_pupd(PinName_t pinName, int pupd);//
+void seven_seg_FND_init(int mode, int otype, int pupd, int ospeed);
+void seven_seg_FND_display(uint8_t  num, uint8_t select);
 
 void HAL_SYSTICK(void);
+
+
  
 #ifdef __cplusplus
 }
@@ -78,7 +92,10 @@ void HAL_SYSTICK(void);
 
 #endif // __ECGPIO2_H
 
+
 ```
+
+
 
 #### GPIO_init() 
 
@@ -222,18 +239,75 @@ GPIO_otype(PA_5, 0);  //// 0: Push-Pull
 Configures Pull-up/Pull-down mode of GPIO pin: No Pull-up, Pull-down/ Pull-up/ Pull-down/ Reserved
 
 ```c
-void GPIO_pupdr(PinName_t pinName, int type);
+void GPIO_pupdr(PinName_t pinName, int pupd);
 ```
 
 **Parameters**
 
 - **pinName:** Port and Pin name(i.g PA_4)
-- **speed**: NO_PUPD(0), PULL_UP(1), PULL_DOWN(2), RESERVED(3)
+- **pupd**: NO_PUPD(0), PULL_UP(1), PULL_DOWN(2), RESERVED(3)
 
 **Example code**
 
 ```c
 GPIO_pupdr(PA_5, 0);// 0: No Pull-up, Pull-down
+```
+
+
+
+
+
+#### seven_seg_FND_init()
+
+Bellow is `seven_seg_FND_init()` which initialize each 7 segment displays and pins.
+
+The address of the display and the pins are declared in array form. 
+
+```c
+void seven_seg_FND_init(int mode, int otype, int pupd, int ospeed);
+```
+
+**Parameters**
+
+- **mode**: INPUT (0), OUTPUT (1), AF(02), ANALOG (03)
+- **type**: PUSH_PULL(0), OPEN_DRAIN(1)
+- **pupd**: NO_PUPD(0), PULL_UP(1), PULL_DOWN(2), RESERVED(3)
+- **speed**: LOW_SPEED(0), MID_SPEED(1), FAST_SPEED(2) , HIGH_SPEED(3)
+
+**Example code**
+
+```c
+seven_seg_FND_init(OUTPUT, PUSH_PULL, NO_PUPD, MEDIUM_SPEED); 
+```
+
+
+
+
+
+#### seven_seg_FND_display()
+
+Using bitwise operations, a number from 0 to 9 is shown on the selected display. The address of the display and the pins are declared in array form. 
+
+```c
+void seven_seg_FND_display(uint8_t  num, uint8_t select);
+```
+
+**Parameters**
+
+- **num**: Number to display(0~9)
+- **select**: The selected display among the four displays
+
+**Example code**
+
+```c
+//Selected number and display
+uint8_t numDisplay=9;
+uint8_t selectFND=3;
+
+//Display the number on the selected display
+while (1) {
+        seven_seg_FND_display(numDisplay,selectFND);
+}
 ```
 
 
