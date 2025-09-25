@@ -82,7 +82,7 @@ For more details, see my github documentation here: [Library Documentation](http
 
 ## Problem 0: Connection of 7-Segment Display and Decoder
 
-For problem 0, the goal is to display one number on 7 segment without button. 
+For problem 0, the goal is to display one number on 7 segment without button. This process is [Tutorial: 7-Segment Display](https://ykkim.gitbook.io/ec/ec-course/tutorial/tutorial-7segment-display)
 
 ![Flowchart](.\img\Flowchart_problem0.png)
 
@@ -100,9 +100,13 @@ The configuration of the registers are as follows:
 
 
 
+Details of  the configuration of 7-segment pin and displays are as follows:
+
+![Flowchart](.\img\pin_configuration.png)
+
 ### Procedure
 
-The environment for problem 0 is constructed as fillows:
+The environment for problem 0 is constructed as follows:
 
 ![Flowchart](.\img\environment_problem0.png)
 
@@ -118,7 +122,7 @@ You can read the details of the function used in the lab here: [Library Document
 
 First, the only header file included in the code is `#include "ecSTM32F4v2.h"`.  This file declares the header files required for the lab, and explanations of these headers can be found in the documentation at the beginning of the report. 
 
-The details of the file is [here](https://github.com/YeChanKimm/EC-ycKim-153/blob/main/include/ecSTM32F4v2.h). 
+The details of the file is [here](https://github.com/YeChanKimm/EC-ycKim-153/blob/main/include/ecSTM32F4v2.h) and in Appendix. 
 
 ```c
 #include "ecSTM32F4v2.h"
@@ -129,6 +133,8 @@ The details of the file is [here](https://github.com/YeChanKimm/EC-ycKim-153/blo
 **`setup()`**
 
 A comprehensive register initialization function was built using the previously defined functions. 
+
+Used function:
 
 - `RCC_HSI_init()`:  Declared in `ecRCC2.h` . 
 - `seven_seg_FND_init()`: Declared in `ecGPIO2.h` 
@@ -148,6 +154,8 @@ void setup(void){
 **`main()`**
 
 Using the declared functions, display the number on the selected display.
+
+Used function:
 
 ` seven_seg_FND_display()`: Declared in `ecGPIO2.h` 
 
@@ -194,6 +202,8 @@ For this lab, constant values for setting registers  and two functions is added 
 
 - **`seven_seg_FND_init()`**
 - **`seven_seg_FND_display()`**
+
+
 
 Bellow is explanations:
 
@@ -309,6 +319,10 @@ The configuration of the registers are as follows:
 
 
 
+Details of  the configuration of 7-segment pin and displays are as follows:
+
+![Flowchart](.\img\pin_configuration.png)
+
 ### Procedure
 
 The environment for problem 1 is constructed as follows:
@@ -317,7 +331,7 @@ The environment for problem 1 is constructed as follows:
 
 
 
-You can download the code this link: 
+You can download the code this link: [Code Link](https://github.com/YeChanKimm/EC-ycKim-153/blob/main/lab/LAB_GPIO_7segment_22100153_YechanKim/LAB_GPIO_7segment.c)
 
 You can read the details of the function used in the lab here: [Library Documentation](https://github.com/YeChanKimm/EC-ycKim-153/blob/main/README.md)
 
@@ -476,7 +490,7 @@ Result is as follows:
 
 ## Appendix
 
-**`LAB_GPIO_7segment_1.c`**
+**`TU_GPIO_7Segment.c`**
 
 ```c
 #include "ecSTM32F4v2.h"
@@ -511,7 +525,7 @@ int main(void) {
 
 
 
-**`LAB_GPIO_7segment_2.c`**
+**`LAB_GPIO_7segment.c`**
 
 ```c
 #include "ecSTM32F4v2.h"
@@ -562,4 +576,44 @@ int main(void) {
     }
 }
 ```
+
+
+
+**`ecSTM32F4v2.h`**
+
+```c
+//ecSTM32F4v2.h
+/**
+******************************************************************************
+* @course   Embedded Controller- HGU
+* @author	Yechan Kim
+* @brief	STM32F411 Library for EC
+*
+******************************************************************************
+*/
+
+#ifndef __EC_STM_H
+#define __EC_STM_H
+
+// STM built-In Library
+#include "stm32f4xx.h"
+//#include "stm32f411xe.h"
+//#include "math.h"
+
+// EC course Library
+#include "ecPinNames.h"
+#include "ecRCC2.h"
+#include "ecGPIO2.h"
+//#include "ecEXTI2.h"
+//#include "ecSysTick2.h"
+//#include "ecTIM2.h"
+//#include "ecPWM2.h"
+//#include "ecStepper2.h"
+//#include "ecADC2.h"
+//#include "ecUART2.h"
+
+#endif
+```
+
+
 
