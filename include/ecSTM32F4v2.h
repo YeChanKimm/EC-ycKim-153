@@ -1,11 +1,8 @@
 //ecSTM32F4v2.h
-
-
 /**
 ******************************************************************************
 * @course   Embedded Controller- HGU
-* @author	iiLAB
-* @mod		2024-8-05 by YKKIM
+* @author	Yechan Kim
 * @brief	STM32F411 Library for EC
 *
 ******************************************************************************
@@ -16,8 +13,8 @@
 
 // STM built-In Library
 #include "stm32f4xx.h"
-#include "stm32f411xe.h"
-#include "math.h"
+//#include "stm32f411xe.h"
+//#include "math.h"
 
 // EC course Library
 #include "ecPinNames.h"
@@ -32,7 +29,3 @@
 //#include "ecUART2.h"
 
 #endif
-
-
-
- 
