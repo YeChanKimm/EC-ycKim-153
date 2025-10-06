@@ -1,7 +1,5 @@
 # EC-ycKim-153
 
-
-
 ## Embedded Controller - STM32F411 Driver Library
 
 Written by: Yechan Kim
@@ -14,8 +12,6 @@ OS: WIn11
 
 MCU: STM32F411RE, Nucleo-64
 
-
-
 **Table of contents**
 
 - GPIO Digital In/out
@@ -23,7 +19,9 @@ MCU: STM32F411RE, Nucleo-64
   - ecPinNames.h
   - ecRCC2.h
 
-#### `#include "ecGPIO2.h"`
+#### 
+
+## #include "ecGPIO2.h"
 
 It combines the port name and pin number into a single variable and maps it to the actual register address.
 
@@ -32,7 +30,7 @@ It combines the port name and pin number into a single variable and maps it to t
 @ Embedded Controller by Yechan Kim - Handong Global University
 Author           : Yechan Kim
 Created          : 09-17-2025
-Modified		 : 09-24-2025
+Modified         : 09-24-2025
 Language/ver     : C in Keil uVision
 
 Description      : Distributed to Students for LAB_GPIO
@@ -85,19 +83,15 @@ void seven_seg_FND_display(uint8_t  num, uint8_t select);
 void HAL_SYSTICK(void);
 
 
- 
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
 #endif // __ECGPIO2_H
-
-
 ```
 
-
-
-#### GPIO_init() 
+#### GPIO_init()
 
 Initializes GPIO pins with default setting and Enables GPIO Clock. Mode: In/Out/AF/Analog
 
@@ -115,10 +109,6 @@ void GPIO_init(PinName_t pinName, uint32_t mode);
 ```c
 void GPIO_mode(PA_4, OUTPUT);
 ```
-
-
-
-
 
 #### GPIO_mode()
 
@@ -139,10 +129,6 @@ void GPIO_init(PinName_t pinName, int mode);
 void GPIO_mode(PA_4, OUTPUT);
 ```
 
-
-
-
-
 #### GPIO_write()
 
 Write the data to GPIO pin: High, Low
@@ -162,10 +148,6 @@ void GPIO_write(PinName_t pinName, int Output);
 void GPIO_mode(PA_4, 1);// 1: High
 ```
 
-
-
-
-
 #### GPIO_read()
 
 Read the data from GPIO pin
@@ -183,10 +165,6 @@ int GPIO_read(PinName_t pinName);
 ```c
 GPIO_read(GPIOC, 13);
 ```
-
-
-
-
 
 #### GPIO_ospeed()
 
@@ -207,10 +185,6 @@ void GPIO_ospeed(GPIO_TypeDef* Port, int pin, int speed);
 GPIO_ospeed(PA_5, 2);  // 2: FAST_SPEED
 ```
 
-
-
-
-
 #### GPIO_otype()
 
 Configures output type of GPIO pin: Push-Pull / Open-Drain
@@ -230,10 +204,6 @@ void GPIO_otype(PinName_t pinName, int type);
 GPIO_otype(PA_5, 0);  //// 0: Push-Pull
 ```
 
-
-
-
-
 #### GPIO_pupdr()
 
 Configures Pull-up/Pull-down mode of GPIO pin: No Pull-up, Pull-down/ Pull-up/ Pull-down/ Reserved
@@ -252,10 +222,6 @@ void GPIO_pupdr(PinName_t pinName, int pupd);
 ```c
 GPIO_pupdr(PA_5, 0);// 0: No Pull-up, Pull-down
 ```
-
-
-
-
 
 #### seven_seg_FND_init()
 
@@ -279,10 +245,6 @@ void seven_seg_FND_init(int mode, int otype, int pupd, int ospeed);
 ```c
 seven_seg_FND_init(OUTPUT, PUSH_PULL, NO_PUPD, MEDIUM_SPEED); 
 ```
-
-
-
-
 
 #### seven_seg_FND_display()
 
@@ -310,11 +272,7 @@ while (1) {
 }
 ```
 
-
-
-
-
-#### `#include "ecPinNames.h"`
+## #include "ecPinNames.h"
 
 It combines the port name and pin number into a single variable and maps it to the actual register address.
 
@@ -330,7 +288,7 @@ extern "C" {
 
 
 // Bitwise Macro Definition
-#define BIT_SET(REG, BIT)      	((REG) |= 1<< (BIT))
+#define BIT_SET(REG, BIT)          ((REG) |= 1<< (BIT))
 #define BIT_CLEAR(REG, BIT)     ((REG) &= ~1<<(BIT))
 #define BIT_READ(REG, BIT)      ((REG)>>BIT & (1))
 #define BITS_SET(REG, BIT,NUM)     ((REG) |= NUM<< (BIT))
@@ -372,7 +330,7 @@ typedef enum {
     PA_13 = 0x0D,
     PA_14 = 0x0E,
     PA_15 = 0x0F,
-    
+
     PB_0  = 0x10,
     PB_1  = 0x11,
     PB_2  = 0x12,
@@ -454,8 +412,6 @@ void ecPinmap(PinName_t pinName, GPIO_TypeDef **GPIOx, unsigned int *pin);
 #endif
 ```
 
-
-
 #### ecPinmap()
 
 Maps a combined port/pin identifier to its GPIO port address and pin number.
@@ -476,11 +432,7 @@ void ecPinmap(PinName_t pinName, GPIO_TypeDef **GPIOx, unsigned int *pin);
 ecPinmap(pinName,&Port,&pin);
 ```
 
-
-
-
-
-### `#include "ecRCC2.h"`
+## #include "ecRCC2.h"
 
 It enables clock of the each port. 
 
@@ -512,8 +464,6 @@ extern int EC_SYSCL;
 #endif // __EC_RCC2_H
 ```
 
-
-
 #### RCC_HSI_init()
 
 It initializes the High-Speed Internal (HSI) 16 MHz clock and configures it as the system clock source for the STM32F4.
@@ -528,9 +478,7 @@ void RCC_HSI_init();
 RCC_HSI_init();
 ```
 
-
-
-
+#### 
 
 #### RCC_PLL_init()
 
@@ -546,11 +494,9 @@ void RCC_PLL_init()
 RCC_PLL_init();
 ```
 
+#### 
 
-
-
-
-####  RCC_GPIOA_enable~ RCC_GPIOH_enable
+#### RCC_GPIOA_enable~ RCC_GPIOH_enable
 
 These functions enable the peripheral clock for GPIO port A~H(except F, G) by setting the corresponding bit in the RCC AHB1ENR register.
 
@@ -569,13 +515,7 @@ void RCC_GPIOH_enable(void);
 RCC_GPIOA_enable();
 ```
 
-
-
-
-
-
-
-### `#include "ecEXTI2.h"`
+## #include "ecEXTI2.h"
 
 It controls EXTI registers. 
 
@@ -591,6 +531,7 @@ It controls EXTI registers.
 #define BOTH 2
 
 
+
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
@@ -604,11 +545,232 @@ void clear_pending_EXTI(PinName_t pinName);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
-	 
+
 #endif // __EC_EXTI2_H
 ```
 
-
-
 #### EXTI_init()
 
+This function initializes an external interrupt (EXTI) for a specific GPIO pin. It connects the selected pin to the EXTI line through the system configuration controller (SYSCFG), sets the trigger condition (rising, falling, or both edges), and enables the interrupt mask to allow the signal. Finally, it configures the corresponding interrupt line in the NVIC by setting its priority and enabling the interrupt request.
+
+```c
+void EXTI_init(PinName_t pinName, int trig_type,int priority);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name(i.g PA_4)
+- **trig_type**: FALL, RISING, BOTH
+- **priority**: Interupt Priority
+
+**Example Code**
+
+```c
+EXTI_init(PA_4, FALL, 0);
+```
+
+#### EXTI_enable()
+
+This function **enables** the external interrupt for the specified GPIO pin.  
+It sets the corresponding bit in the **Interrupt Mask Register (IMR)**, allowing the EXTI line to generate interrupt requests.
+
+```c
+void EXTI_enable(PinName_t pinName);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name(i.g PA_4)
+
+**Example Code**
+
+```c
+EXTI_enable(PA_4);
+```
+
+#### EXTI_disable()
+
+This function disables the external interrupt for the specified GPIO pin.  It clears the corresponding bit in the IMR, masking the EXTI line so it no longer triggers interrupts.
+
+```c
+void EXTI_disable(PinName_t pinName);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name(i.g PA_4)
+
+**Example Code**
+
+```c
+EXTI_disable(PA_4);
+```
+
+#### is_pending_EXTI()
+
+This function checks whether an interrupt pending flag is set for the given pin.  It reads the Pending Register (PR) to detect if an interrupt has occurred on that EXTI line.
+
+```c
+uint32_t is_pending_EXTI(PinName_t pinName)
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name(i.g PA_4)
+
+**Example Code**
+
+```c
+is_pending_EXTI(PA_4)
+```
+
+#### clear_pending_EXTI()
+
+This function clears the pending interrupt flag for the specified pin.  Writing a ‘1’ to the corresponding bit in the Pending Register (PR) resets the pending state, indicating that the interrupt has been handled.
+
+```c
+void clear_pending_EXTI(PinName_t pinName)
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name(i.g PA_4)
+
+**Example Code**
+
+```c
+clear_pending_EXTI(PA_4)
+```
+
+## #include "ecSysTick2.h"
+
+This file is for controlling SysTick registers. 
+
+```c
+#ifndef __EC_SYSTICK2_H
+#define __EC_SYSTICK2_H
+
+#include "stm32f4xx.h"
+#include "ecRCC2.h"
+#include <stdint.h>
+
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+
+void SysTick_init(uint32_t msec);
+void SysTick_Handler(void);
+void SysTick_counter();
+void delay_ms(uint32_t msec);
+void SysTick_reset(void);
+uint32_t SysTick_val(void);
+void SysTick_enable(void);
+void SysTick_disable (void);
+uint32_t crtNum_ms(void);
+
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif // __EC_SYSTICK2_H
+```
+
+#### SysTick_init()
+
+Initializes the SysTick timer to generate periodic interrupts at the specified time interval (`msec`).  It selects the processor clock source, sets the reload value, clears the counter, enables SysTick interrupts, and activates the timer.
+
+```c
+void SysTick_init(uint32_t msec);
+```
+
+**Parameters**
+
+- **msec**: Interupt period(msec)
+
+**Example Code**
+
+```c
+SysTick_init(1)
+```
+
+#### delay_ms()
+
+Implements a blocking delay function in milliseconds.  It waits until the specified time (`mesc`) has passed by continuously checking the difference in `msTicks`.
+
+```c
+void delay_ms(uint32_t msec);
+```
+
+**Parameters**
+
+- **msec**: Delay period(msec)
+
+**Example Code**
+
+```c
+delay_ms(1000);
+```
+
+#### SysTick_val()
+
+Returns the current value of the SysTick counter (`VAL` register).  Useful for reading the timer’s live count state.
+
+```c
+uint32_t SysTick_val(void);
+```
+
+**Example Code**
+
+```c
+int value=SysTick_val();
+```
+
+#### SysTick_reset
+
+Resets the current SysTick counter value by clearing the VAL register.  This restarts the counting cycle.
+
+```c
+void SysTick_reset(void);
+```
+
+**Example Code**
+
+```c
+ SysTick_reset();
+```
+
+#### SysTick_enable(), SysTick_disable()
+
+They enble/disable the system timer in CTRL register. 
+
+```c
+void SysTick_enable(void);
+void SysTick_disable (void);
+```
+
+**Example Code**
+
+```c
+SysTick_enable();
+SysTick_disable();
+```
+
+#### SysTick_Handler, SysTick_counter()
+
+For    `Systick_Handler()`, it is the interrupt service routine (ISR) for SysTick.  It is automatically called each time the SysTick timer counts down to zero and calls `SysTick_counter()`.
+
+For `SysTick_counter()` , Increments the global millisecond counter `msTicks` every time a SysTick interrupt occurs.  Used for timing and delay functions.
+
+```c
+void SysTick_Handler(void);
+void SysTick_counter(void);
+```
+
+**Example Code**
+
+```c
+SysTick_Handler();
+SysTick_counter();
+```
