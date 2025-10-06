@@ -29,8 +29,8 @@ It combines the port name and pin number into a single variable and maps it to t
 /*----------------------------------------------------------------\
 @ Embedded Controller by Yechan Kim - Handong Global University
 Author           : Yechan Kim
-Created          : 09-17-2025
-Modified         : 09-24-2025
+Created          : 09-24-2025
+Modified         : 10-06-2025
 Language/ver     : C in Keil uVision
 
 Description      : Distributed to Students for LAB_GPIO
@@ -79,7 +79,9 @@ void GPIO_otype(PinName_t pinName, int type);//
 void GPIO_pupd(PinName_t pinName, int pupd);//
 void seven_seg_FND_init(int mode, int otype, int pupd, int ospeed);
 void seven_seg_FND_display(uint8_t  num, uint8_t select);
-
+void seven_seg_FND_display_OneDigit(uint8_t  num, uint8_t select);
+void seven_seg_FND_display_TenDigit(uint8_t  num, uint8_t select);
+void seven_seg_FND_display_Final(uint8_t  num, uint8_t select);
 void HAL_SYSTICK(void);
 
 
@@ -271,6 +273,92 @@ while (1) {
         seven_seg_FND_display(numDisplay,selectFND);
 }
 ```
+
+#### seven_seg_FND_display_OneDigit();
+
+This function is used to display the ones digit while showing the tens digit on the display.
+
+```c
+void seven_seg_FND_display_OneDigit(uint8_t  num, uint8_t  select)
+```
+
+**Parameters**
+
+- **num**: Number to display(0~9)
+- **select**: The selected display among the four displays
+
+**example code**
+
+```c
+//Selected number and display
+uint8_t numDisplay=9;
+uint8_t selectFND=3;
+
+//Display the number on the selected display
+while (1) {
+        seven_seg_FND_display_OneDigit(numDisplay,selectFND);
+}
+```
+
+
+
+
+
+#### seven_seg_FND_display_TenDigit();
+
+This function is used to display the tens digit when showing the tens place on the display.
+
+```c
+void seven_seg_FND_display_TenDigit(uint8_t  num, uint8_t  select)
+```
+
+**Parameters**
+
+- **num**: Number to display(0~9)
+- **select**: The selected display among the four displays
+
+**example code**
+
+```c
+//Selected number and display
+uint8_t numDisplay=9;
+uint8_t selectFND=3;
+
+//Display the number on the selected display
+while (1) {
+        seven_seg_FND_display_OneDigit(numDisplay,selectFND);
+}
+```
+
+
+
+#### seven_seg_FND_display_Final();
+
+This function combines the ones and tens digits into a single display when showing the tens place.
+
+```c
+void seven_seg_FND_display_Final(uint8_t  num, uint8_t select);
+```
+
+**Parameters**
+
+- **num**: Number to display(0~9)
+- **select**: The selected display among the four displays
+
+**example code**
+
+```c
+//Selected number and display
+uint8_t numDisplay=9;
+uint8_t selectFND=3;
+
+//Display the number on the selected display
+while (1) {
+        seven_seg_FND_display_Final(numDisplay,selectFND);
+}
+```
+
+
 
 ## #include "ecPinNames.h"
 
