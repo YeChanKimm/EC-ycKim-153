@@ -300,10 +300,6 @@ while (1) {
 }
 ```
 
-
-
-
-
 #### seven_seg_FND_display_TenDigit();
 
 This function is used to display the tens digit when showing the tens place on the display.
@@ -330,8 +326,6 @@ while (1) {
 }
 ```
 
-
-
 #### seven_seg_FND_display_Final();
 
 This function combines the ones and tens digits into a single display when showing the tens place.
@@ -357,8 +351,6 @@ while (1) {
         seven_seg_FND_display_Final(numDisplay,selectFND);
 }
 ```
-
-
 
 ## #include "ecPinNames.h"
 
@@ -861,4 +853,352 @@ void SysTick_counter(void);
 ```c
 SysTick_Handler();
 SysTick_counter();
+```
+
+## #include "ecTIME2.h"
+
+This header file controls timers. 
+
+```c
+/**
+******************************************************************************
+* @author  Yechan Kim
+* @brief   Embedded Controller:  EC_HAL_for_student_exercise 
+******************************************************************************
+*/
+#ifndef __EC_TIM2_H 
+#define __EC_TIM2_H
+#include "stm32f411xe.h"
+
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+
+/* Timer Configuration */
+// Initialize  TIMERx
+void TIM_init(TIM_TypeDef* TIMx);
+
+// Default Setting:  TIM_period_ms(TIMx, 1 msec) with Counter_Clk 100kHz / PSC=840-1, ARR=100-1
+
+//Choose Timer Update Period  (a) msec or  (b) usec
+void TIM_period(TIM_TypeDef* TIMx, uint32_t msec);    // msec of TimerUEV with Counter_Clk 100kHz / PSC=840, ARR=100*msec
+void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec);
+void TIM_period_us(TIM_TypeDef* TIMx, uint32_t usec);  // usec of TimerUEV with Counter_Clk 1MHz / PSC=84, ARR=100*msec
+
+
+//Initialize TIM_UI with TIMERx
+void TIM_UI_init(TIM_TypeDef* TIMx, uint32_t msec); 
+
+// Start by Enabling TIM_UI 
+void TIM_UI_enable(TIM_TypeDef* TIMx);
+void TIM_UI_disable(TIM_TypeDef* TIMx);
+
+uint32_t is_UIF(TIM_TypeDef *TIMx);
+void clear_UIF(TIM_TypeDef *TIMx);
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif // __EC_TIM2_H 
+```
+
+#### TIM_init()
+
+This function initializes a timer (TIMx) on the STM32 by enabling its clock, setting it as an upcounter, and defining its counting period in microseconds. The `TIM_period_us()` function configures the prescaler (PSC) and auto-reload register (ARR) so the timer runs at 1 MHz, allowing precise timing from 1 µs up to about 65 ms.
+
+```c
+void TIM_init(TIM_TypeDef* TIMx);
+```
+
+**Parameters**
+
+- **TIMx**: Timer number
+
+**Example Code**
+
+```c
+TIM_init(TIM2);
+```
+
+#### TIM_period()
+
+This function sets the timer period by configuring the prescaler and auto-reload registers so the timer runs at 100 kHz, allowing timing intervals from about 1 ms up to 6.5 seconds.
+
+There are 2 way of setting timer period. 
+
+- **TIM_period_ms()** : setting period in milliseconds. 
+
+- **TIM_period_us()** :  setting period in microseconds
+
+default function `TIM_period()` is in milliseconds. 
+
+```c
+void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec);
+void TIM_period_us(TIM_TypeDef* TIMx, uint32_t usec);
+void TIM_period(TIM_TypeDef* TIMx, uint32_t msec);
+```
+
+**Parameters**
+
+- **TIMx** : Timer number
+
+- **msec/usec**: timer period
+
+**Example Code**
+
+```c
+TIM_period_ms(TIM2, 1);
+TIM_period_us(TIM3, 1000);
+TIM_period(TIM4, 1);
+```
+
+#### TIM_UI_init()
+
+This function initializes a timer with a specified millisecond period, enables its update interrupt, and configures the NVIC to handle the corresponding timer interrupt with priority level 2.
+
+```c
+void TIM_UI_init(TIM_TypeDef* TIMx, uint32_t msec);
+```
+
+**Parameters**
+
+- **TIMx** : Timer number
+
+- **msec**: timer period
+
+**Example Code**
+
+```c
+TIM_UI_init(TIM2, 1);
+```
+
+#### TIM_UI_enable()/TIM_UI_disable()
+
+These two functions enable or disable the timer’s update interrupt by setting or clearing bit 0 of the DIER register, which controls whether the timer generates an interrupt on update events.
+
+```c
+void TIM_UI_enable(TIM_TypeDef* TIMx);
+void TIM_UI_disable(TIM_TypeDef* TIMx);
+```
+
+**Parameters**
+
+- **TIMx** : Timer number
+
+**Example Code**
+
+```c
+TIM_UI_enable(TIM2);
+TIM_UI_disable(TIM2);
+```
+
+#### is_UIF()/clear_UIF()
+
+These two functions handle the timer’s update interrupt flag (UIF): `is_UIF()` checks if the flag is set, while `clear_UIF()` resets it by clearing bit 0 of the status register (SR).
+
+```c
+uint32_t is_UIF(TIM_TypeDef *TIMx);
+void clear_UIF(TIM_TypeDef *TIMx);
+```
+
+**Parameters**
+
+- **TIMx** : Timer number
+
+**Example Code**
+
+```c
+if(is_UIF(TIM2) clear_UIF(TIM2);
+```
+
+
+
+
+
+## #include "ecPWM2.h"
+
+This header controls PWM using timers. 
+
+```c
+/**
+******************************************************************************
+* @author  Yechan Kim
+* @brief   Embedded Controller:  EC_HAL_for_student_exercise 
+******************************************************************************
+*/
+
+#ifndef __EC_PWM2_H
+#define __EC_PWM2_H
+
+#include "stm32f411xe.h"
+#include "ecGPIO2.h"
+#include "ecTIM2.h"
+#include "ecPinNames.h"
+
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+
+/* PWM Configuration using PinName_t Structure */
+
+/* PWM initialization */
+// Default: 84MHz PLL, 1MHz CK_CNT, 50% duty ratio, 1msec period
+void PWM_init(PinName_t pinName);
+void PWM_init_AF3(PinName_t pinName);
+void PWM_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN);
+
+
+/* PWM PERIOD SETUP */
+// allowable range for msec:  1~2,000
+void PWM_period(PinName_t pinName,  uint32_t msec);	
+void PWM_period_ms(PinName_t pinName,  uint32_t msec);	// same as PWM_period()
+// allowable range for usec:  1~1,000
+void PWM_period_us(PinName_t pinName, uint32_t usec);
+
+
+/* DUTY RATIO SETUP */
+// High Pulse width in msec
+void PWM_pulsewidth(PinName_t pinName, double pulse_width_ms);
+void PWM_pulsewidth_ms(PinName_t pinName, double pulse_width_ms);  // same as void PWM_pulsewidth
+void PWM_pulsewidth_us(PinName_t pinName, double pulse_width_us);
+// Duty ratio 0~1.0;
+void PWM_duty(PinName_t pinName, float duty);
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif // __EC_PWM2_H
+```
+
+#### PWM_init()
+
+This function initializes PWM output for a specified pin by mapping it to its corresponding timer and channel, setting the GPIO to alternate function mode, configuring the timer for PWM mode (default 50% duty cycle), and enabling the timer counter to generate PWM signals.
+
+```c
+void PWM_init(PinName_t pinName);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name(i.g PA_4)
+
+**Example code**
+
+```c
+PWM_init(PA_0);
+```
+
+
+
+#### PWM_pinmap()
+
+This function maps a given pin to its corresponding timer (`TIMx`) and channel (`chN`) based on its GPIO port and pin number, allowing the correct timer configuration for PWM signal generation.
+
+```c
+void PWM_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name(i.g PA_4)
+- **TIMx** : Timer number
+- **chN** : channel number 
+
+**Example code**
+
+```c
+PWM_pinmap(pinName, &TIMx, &chN);
+```
+
+
+
+
+
+#### PWM_period()
+
+This function sets the PWM signal period by identifying the corresponding timer from the given pin and configuring its timer period
+
+There are 2 way of setting PWM period:
+
+- **PWM_period_ms()** : setting period in milliseconds.
+
+- **PWM_period_us()** : setting period in microseconds
+
+default function `PWM_period()` is in milliseconds.
+
+```c
+void PWM_period(PinName_t pinName,  uint32_t msec);	
+void PWM_period_ms(PinName_t pinName,  uint32_t msec);	// same as PWM_period()
+void PWM_period_us(PinName_t pinName, uint32_t usec);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name
+
+- **msec**: timer period
+
+**Example code**
+
+```c
+PWM_period(PA_0, 1);
+PWM_period_ms(PA_0, 1);
+PWM_period_us(PA_0, 1000);
+```
+
+
+
+#### PWM_pulsewidth()
+
+This function sets the PWM pulse width (high time) by calculating the corresponding timer compare value based on the system clock and prescaler, then updating the appropriate capture/compare register (CCR) for the selected channel.
+
+There are 2 way of setting PWM period:
+
+- **PWM_pulsewidth_ms()** : setting period in milliseconds.
+
+- **PWM_pulsewidth_us()** : setting period in microseconds
+
+```c
+void PWM_pulsewidth(PinName_t pinName, double pulse_width_ms);
+void PWM_pulsewidth_ms(PinName_t pinName, double pulse_width_ms);  // same as void PWM_pulsewidth
+void PWM_pulsewidth_us(PinName_t pinName, double pulse_width_us);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name
+
+- **pulse_width_ms/pulse_width_us**: Pulse period
+
+**Example code**
+
+```c
+PWM_pulsewidth(PA_0, 0.2);
+PWM_pulsewidth_ms(PA_0, 0.2);  // same as void PWM_pulsewidth
+PWM_pulsewidth_us(PA_0, 200)
+```
+
+
+
+#### PWM_duty()
+
+This function sets the PWM duty cycle by calculating the compare value as a fraction of the timer’s auto-reload value (ARR) and updating the corresponding capture/compare register (CCR) for the selected channel.
+
+```c
+void PWM_duty(PinName_t pinName, float duty);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name
+- **duty** : Duty ratio of the PWM
+
+**Example code**
+
+```c
+PWM_duty(PA_), 0.5);
 ```
