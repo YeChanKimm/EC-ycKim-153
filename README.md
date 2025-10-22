@@ -1013,10 +1013,6 @@ void clear_UIF(TIM_TypeDef *TIMx);
 if(is_UIF(TIM2) clear_UIF(TIM2);
 ```
 
-
-
-
-
 ## #include "ecPWM2.h"
 
 This header controls PWM using timers. 
@@ -1052,8 +1048,8 @@ void PWM_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN);
 
 /* PWM PERIOD SETUP */
 // allowable range for msec:  1~2,000
-void PWM_period(PinName_t pinName,  uint32_t msec);	
-void PWM_period_ms(PinName_t pinName,  uint32_t msec);	// same as PWM_period()
+void PWM_period(PinName_t pinName,  uint32_t msec);    
+void PWM_period_ms(PinName_t pinName,  uint32_t msec);    // same as PWM_period()
 // allowable range for usec:  1~1,000
 void PWM_period_us(PinName_t pinName, uint32_t usec);
 
@@ -1092,8 +1088,6 @@ void PWM_init(PinName_t pinName);
 PWM_init(PA_0);
 ```
 
-
-
 #### PWM_pinmap()
 
 This function maps a given pin to its corresponding timer (`TIMx`) and channel (`chN`) based on its GPIO port and pin number, allowing the correct timer configuration for PWM signal generation.
@@ -1114,10 +1108,6 @@ void PWM_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN);
 PWM_pinmap(pinName, &TIMx, &chN);
 ```
 
-
-
-
-
 #### PWM_period()
 
 This function sets the PWM signal period by identifying the corresponding timer from the given pin and configuring its timer period
@@ -1131,8 +1121,8 @@ There are 2 way of setting PWM period:
 default function `PWM_period()` is in milliseconds.
 
 ```c
-void PWM_period(PinName_t pinName,  uint32_t msec);	
-void PWM_period_ms(PinName_t pinName,  uint32_t msec);	// same as PWM_period()
+void PWM_period(PinName_t pinName,  uint32_t msec);    
+void PWM_period_ms(PinName_t pinName,  uint32_t msec);    // same as PWM_period()
 void PWM_period_us(PinName_t pinName, uint32_t usec);
 ```
 
@@ -1149,8 +1139,6 @@ PWM_period(PA_0, 1);
 PWM_period_ms(PA_0, 1);
 PWM_period_us(PA_0, 1000);
 ```
-
-
 
 #### PWM_pulsewidth()
 
@@ -1182,8 +1170,6 @@ PWM_pulsewidth_ms(PA_0, 0.2);  // same as void PWM_pulsewidth
 PWM_pulsewidth_us(PA_0, 200)
 ```
 
-
-
 #### PWM_duty()
 
 This function sets the PWM duty cycle by calculating the compare value as a fraction of the timer’s auto-reload value (ARR) and updating the corresponding capture/compare register (CCR) for the selected channel.
@@ -1200,5 +1186,5 @@ void PWM_duty(PinName_t pinName, float duty);
 **Example code**
 
 ```c
-PWM_duty(PA_), 0.5);
+PWM_duty(PA_0, 0.5);
 ```
