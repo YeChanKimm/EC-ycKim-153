@@ -1197,7 +1197,7 @@ This header file is to control stepper motor.
 #include "stm32f411xe.h"
 #include "ecGPIO2.h"
 #include "ecSysTick2.h"
-			
+
 #ifndef __EC_STEPPER2_H
 #define __EC_STEPPER2_H
 
@@ -1207,19 +1207,22 @@ This header file is to control stepper motor.
 
 //State mode
 #define HALF 0
-#define FULL 1	 
-	 
+#define FULL 1  
+
+#define FULL_PULSE_PER_ROTATION 2048
+#define HALF_PULSE_PER_ROTATION 4096
+        
 /* Stepper Motor */
 //stepper motor function
 
 typedef struct{
-	PinName_t pin1;
-	PinName_t pin2;
-	PinName_t pin3;
-	PinName_t pin4;
-	uint32_t _step_num;
+    PinName_t pin1;
+    PinName_t pin2;
+    PinName_t pin3;
+    PinName_t pin4;
+    uint32_t _step_num;
 } Stepper_t;
-	 
+
 void Stepper_init(PinName_t pinName1, PinName_t pinName2, PinName_t pinName3, PinName_t pinName4);
 void Stepper_setSpeed(long whatSpeed);
 void Stepper_step(uint32_t steps, uint32_t direction, uint32_t mode); 
@@ -1230,8 +1233,6 @@ void Stepper_stop(void);
 #endif /* __cplusplus */
 
 #endif // __EC_STEPPER2_H
-
-
 ```
 
 #### Stepper_init()
@@ -1252,8 +1253,6 @@ void Stepper_init(PinName_t pinName1, PinName_t pinName2, PinName_t pinName3, Pi
 Stepper_init(PB_10,PB_4,PB_5,PB_3); 
 ```
 
-
-
 #### Stepper_setSpeed()
 
 This function converts the motor speed input by the user in RPM to milliseconds per step. Since the motor makes one full rotation per 2048 steps, the input RPM is modeled as 60000 / (2048 × input).
@@ -1271,8 +1270,6 @@ void Stepper_setSpeed(long whatSpeed);
 ```c
 Stepper_setSpeed(2); 
 ```
-
-
 
 #### Stepper_step()
 
@@ -1294,8 +1291,6 @@ void Stepper_step(uint32_t steps, uint32_t direction, uint32_t mode);
 Stepper_step(2048*10, 1, FULL);
 ```
 
-
-
 #### Stepper_stop()
 
 This function stops the motor using GPIO_write as 0. 
@@ -1309,8 +1304,6 @@ void Stepper_stop(void);
 ```c
 Stepper_stop(0);
 ```
-
-
 
 #### Stepper_pinOut()
 
