@@ -1188,3 +1188,140 @@ void PWM_duty(PinName_t pinName, float duty);
 ```c
 PWM_duty(PA_0, 0.5);
 ```
+
+## #include "ecStepper2.h"
+
+This header file is to control stepper motor. 
+
+```c
+#include "stm32f411xe.h"
+#include "ecGPIO2.h"
+#include "ecSysTick2.h"
+			
+#ifndef __EC_STEPPER2_H
+#define __EC_STEPPER2_H
+
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+
+//State mode
+#define HALF 0
+#define FULL 1	 
+	 
+/* Stepper Motor */
+//stepper motor function
+
+typedef struct{
+	PinName_t pin1;
+	PinName_t pin2;
+	PinName_t pin3;
+	PinName_t pin4;
+	uint32_t _step_num;
+} Stepper_t;
+	 
+void Stepper_init(PinName_t pinName1, PinName_t pinName2, PinName_t pinName3, PinName_t pinName4);
+void Stepper_setSpeed(long whatSpeed);
+void Stepper_step(uint32_t steps, uint32_t direction, uint32_t mode); 
+void Stepper_stop(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif // __EC_STEPPER2_H
+
+
+```
+
+#### Stepper_init()
+
+The `Stepper_init()` function sets up four GPIO pins for stepper motor control, configuring them as digital outputs with no pull-up or pull-down resistors, push-pull output type, and fast speed for reliable motor operation.
+
+```c
+void Stepper_init(PinName_t pinName1, PinName_t pinName2, PinName_t pinName3, PinName_t pinName4);
+```
+
+**Parameters**
+
+- **pinName**: Port and Pin name
+
+**Example code**
+
+```c
+Stepper_init(PB_10,PB_4,PB_5,PB_3); 
+```
+
+
+
+#### Stepper_setSpeed()
+
+This function converts the motor speed input by the user in RPM to milliseconds per step. Since the motor makes one full rotation per 2048 steps, the input RPM is modeled as 60000 / (2048 × input).
+
+```c
+void Stepper_setSpeed(long whatSpeed);
+```
+
+**Parameters**
+
+- **whatSpeed**: User input rpm
+
+**Example code**
+
+```c
+Stepper_setSpeed(2); 
+```
+
+
+
+#### Stepper_step()
+
+This function rotates the motor by executing the specified number of steps, direction, and mode (such as full-step or half-step) given as parameters.
+
+```c
+void Stepper_step(uint32_t steps, uint32_t direction, uint32_t mode); 
+```
+
+**Parameters**
+
+- **steps**: Steps to run
+- **direction**: CW or CCW
+- **mode**: Full step/Half step
+
+**Example code**
+
+```c
+Stepper_step(2048*10, 1, FULL);
+```
+
+
+
+#### Stepper_stop()
+
+This function stops the motor using GPIO_write as 0. 
+
+```c
+void Stepper_stop(void);
+```
+
+**Example code**
+
+```c
+Stepper_stop(0);
+```
+
+
+
+#### Stepper_pinOut()
+
+This function write the output of the state on given pin. 
+
+```c
+void Stepper_pinOut (uint32_t state, uint32_t mode);
+```
+
+**Example code**
+
+```c
+Stepper_pinOut(0,FULL);
+```
