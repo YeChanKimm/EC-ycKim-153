@@ -27,8 +27,8 @@ void TIM_init(TIM_TypeDef* TIMx){
 
 	
     // 2. Set CNT period
-	 uint32_t msec=1;
-	TIM_period_ms(TIMx, msec); 
+	uint32_t msec=1;
+	TIM_period(TIMx, msec); 
 	
 	
     // 3. CNT Direction
@@ -118,7 +118,12 @@ void TIM_period_ms(TIM_TypeDef* TIMx, uint32_t msec){
 
 // msec = 1 to 655
 void TIM_period(TIM_TypeDef* TIMx, uint32_t msec){
+	//Defalut
 	TIM_period_ms(TIMx, msec);
+
+	//To more accurate
+	//TIM_period_us(TIMx,msec);
+
 }
 
 

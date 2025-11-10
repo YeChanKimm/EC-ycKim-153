@@ -37,6 +37,12 @@ Description      : Distributed to Students for LAB_GPIO
 #define FAST_SPEED 2
 #define HIGH_SPEED 3
 
+
+#define EC_LOW 0
+#define EC_MEDIUM 1
+#define EC_FAST 2
+#define EC_HIGH 3
+
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */

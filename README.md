@@ -1313,8 +1313,6 @@ This function write the output of the state on given pin.
 void Stepper_pinOut (uint32_t state, uint32_t mode);
 ```
 
-
-
 **Example code**
 
 ```c
@@ -1322,6 +1320,8 @@ Stepper_pinOut(0,FULL);
 ```
 
 ## #include "ecUART2.h"
+
+This library controls UART system. 
 
 ```c
 #ifndef __EC_USART_H
@@ -1412,8 +1412,6 @@ void USART_setting(USART_TypeDef* USARTx, PinName_t pin_GPIO_TX, PinName_t pin_G
 USART_setting(USART1, PA_9, PA_10, 9600);
 ```
 
-
-
 #### UART_baud()
 
 The `UART_baud()` function sets the baud rate for a given USART by calculating and writing the correct divisor value to the BRR register based on the clock frequency (APB1 or APB2). It temporarily disables the USART, computes the mantissa and fraction for accurate timing, updates the BRR register, and then re-enables the USART.
@@ -1428,16 +1426,12 @@ void UART_baud(USART_TypeDef* USARTx, uint32_t baud)
 - **pin_GPIO_TX** : TX pinname
 - **pin_GPIO_RX** : RX pinname
 - **baud** : bauderate
-  
-  
 
 **Example code**
 
 ```c
 UART_baud(USART1, baud);
 ```
-
-
 
 #### USART_write()
 
@@ -1458,10 +1452,6 @@ void USART1_write(uint8_t* buffer, uint32_t nBytes);
 USART2_write(&PC_Data,1);
 ```
 
-
-
-
-
 #### USART_read()
 
 The `USART_read()` function waits until the RXNE (Receive Not Empty) flag is set, indicating that data has been received, then reads and returns the byte from the data register, automatically clearing the RXNE flag.
@@ -1478,4 +1468,140 @@ uint8_t USART_read(USART_TypeDef * USARTx)
 
 ```c
 PC_data=UART_read(USART1, baud);
+```
+
+## #include "eclCAP2.h"
+
+This library controls input capture algorithm.
+
+```c
+#ifndef __EC_ICAP2_H
+#define __EC_ICAP2_H
+#include "ecPinNames.h"
+#include "stm32f411xe.h"
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+/* Input Capture*/
+
+// ICn selection according to CHn
+#define FIRST 1
+#define SECOND 2
+
+// Edge Type
+#define IC_RISE 0
+#define IC_FALL 1
+#define IC_BOTH 2
+
+// Input Capture Number
+#define IC_1 1
+#define IC_2 2
+#define IC_3 3
+#define IC_4 4
+
+// Input Capture
+
+void ICAP_pinmap(PinName_t pinName, TIM_TypeDef **TIMx, int *chN);
+
+void ICAP_init(PinName_t pinName);
+void ICAP_setup(PinName_t pinName, int ICn, int edge_type);
+void ICAP_counter_us(PinName_t pinName, int usec);
+uint32_t ICAP_capture(TIM_TypeDef *TIMx, uint32_t ICn);
+
+uint32_t is_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);  // CCnum= 1~4
+void clear_CCIF(TIM_TypeDef *TIMx, uint32_t CCnum);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif  // __EC_ICAP2_H
+```
+
+#### ICAP_init()
+
+The `ICAP_init()` function initializes an input capture channel for a given pin by mapping it to the corresponding timer, configuring the GPIO as an alternate function, and setting up the timer for 1 MHz counting. It assigns the pin to the correct timer channel, sets capture mode, enables rising-edge detection, activates capture and interrupt functions, and finally starts the timer counter.
+
+```c
+void ICAP_init(PinName_t pinName);
+```
+
+**Parameters**
+
+- **USARTx**: USART number
+
+**Example code**
+
+```c
+ICAP_init(PB_6); 
+```
+
+
+
+#### ICAP_setup()
+
+The `ICAP_setup()` function configures a selected input capture channel (ICn) on a given pin by mapping it to the correct timer and channel, disabling capture and interrupt during setup, and then setting the channel selection bits in the CCMR registers. It ensures the chosen input capture channel is correctly linked to the timer input (TIx) and prepares it for edge detection and timing measurement.
+
+```c
+void ICAP_setup(PinName_t pinName, int ICn, int edge_type);
+```
+
+**Parameters**
+
+- **pinName**: Input capture pinname
+- **ICn** : Input capture number
+- **edge_type** :Rising/Falling edge
+
+**Example code**
+
+```c
+ICAP_setup(ECHO, 1, IC_RISE);
+```
+
+
+
+#### ICAP_counter_us();
+
+The `ICAP_counter_us()` function sets the timer’s counting speed for input capture by adjusting the prescaler (`PSC`) based on the desired time resolution in microseconds. It configures the timer to count up to 65,535 (`ARR = 0xFFFF`), allowing precise time measurement for signal capture in microsecond units.
+
+```c
+void ICAP_counter_us(PinName_t pinName, int usec);
+```
+
+**Parameters**
+
+- **pinName**: Input capture pinname
+- **usec** : Timer period in usec
+
+**Example code**
+
+```c
+ICAP_counter_us(PB_6, 10);
+```
+
+
+
+
+
+#### ICAP_capture
+
+The `ICAP_capture()` captures `CNT` values which is stored in `CCR`
+
+```c
+uint32_t ICAP_capture(TIM_TypeDef *TIMx, uint32_t ICn);
+```
+
+**Parameters**
+
+- **TIMx**: Timer name
+- **ICn** : Input capture name
+
+**Example code**
+
+```c
+time1 =ICAP_capture(TIM4,1);
+time2 = ICAP_capture(TIM4,2);
 ```
